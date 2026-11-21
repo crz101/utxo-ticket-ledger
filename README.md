@@ -48,8 +48,8 @@ test/
   visual-demo.ts    可视化演示生成器
 demo/
   template.html  可视化页面模板
-revenue/
-  index.html     收款渠道入口页
+docs/
+  index.html     收款渠道入口页（GitHub Pages 源，线上：crz101.github.io/utxo-ticket-ledger/）
 .github/
   FUNDING.yml    仓库 Sponsor 入口配置
 DESIGN.md       设计文档（云端为权威版本）
@@ -57,11 +57,11 @@ DESIGN.md       设计文档（云端为权威版本）
 
 ## 支持这个项目
 
-收款渠道入口见 [`revenue/index.html`](revenue/index.html)。
+收款渠道入口已上线：**https://crz101.github.io/utxo-ticket-ledger/** （仓库 Sponsor 按钮直达）。源码在 [`docs/index.html`](docs/index.html)。
 
-作者居住于中国大陆，GitHub Sponsors 不支持该地区的收款，且财政托管方无大陆主体，因此走的是大陆可用的渠道（爱发电为主，Ko-fi / Buy Me a Coffee 需海外收款账户）。仓库已配置 `.github/FUNDING.yml` 指向入口页。
+作者居住于中国大陆，GitHub Sponsors 不支持该地区的收款，且财政托管方无大陆主体，因此走的是大陆可用的渠道（爱发电为主，Ko-fi / Buy Me a Coffee 需海外收款账户），另直挂 BTC 主网地址（一键复制 + BIP21）。`.github/FUNDING.yml` 的 `custom` 已指向线上收款页。
 
-启用方式：在 `revenue/index.html` 里把 TODO 占位链接换成真实收款主页，再把 `FUNDING.yml` 的 `custom` 换成线上入口地址即可。
+自定义方式：编辑 `docs/index.html` 里的渠道链接与底部 `BTC_ADDRESS` 配置，推送到 `main` 后 GitHub Pages 自动更新。
 
 ## 实测
 
