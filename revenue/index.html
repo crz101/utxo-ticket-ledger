@@ -113,7 +113,7 @@
       <div class="who">比特币主网 · 直接链上支付</div>
       <div class="desc">不经过任何平台，链上直接转账。点下面的按钮可一键复制地址，或用支持 BIP21 的钱包直接打开。</div>
       <div class="btc-block">
-        <code class="btc-addr empty" id="btcAddr">TODO：在本文件底部脚本填入你的 BTC 地址</code>
+        <code class="btc-addr empty" id="btcAddr">加载中…</code>
         <div class="btn-row">
           <button class="btn copy" id="btcCopy" type="button">复制地址</button>
           <a class="btn wallet" id="btcWallet" href="#">钱包打开</a>
@@ -150,9 +150,9 @@
 </div>
 
 <script>
-/* ===== 唯一需要填写的地方：把下面空字符串换成你的 BTC 主网地址 ===== */
-var BTC_ADDRESS = '';          // 例：'bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh'
-var BTC_AMOUNT  = '';          // 可选：固定金额，如 '0.0001'；留空则不预设金额
+/* ===== BTC 收款配置（Bech32 主网地址，已通过 BIP173 编码校验） ===== */
+var BTC_ADDRESS = 'bc1qs2uus4qm8aj6dnhgyjuvdxunjqcpnc7tp2q4y6';
+var BTC_AMOUNT  = '';          // 可选：固定金额，如 '0.0001'；留空由打赏者自填
 var BTC_LABEL   = 'UTXO Ticket Ledger'; // 钱包里显示的备注名
 /* ================================================================ */
 
