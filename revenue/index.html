@@ -34,6 +34,18 @@
   .btn.todo{background:var(--surface2);color:var(--amber);border:1px dashed rgba(210,153,34,.5);}
   .btn.todo:hover{background:rgba(210,153,34,.12);}
   .btn.off{background:var(--surface2);color:var(--muted);border:1px solid var(--border);cursor:not-allowed;pointer-events:none;}
+  .card.btc{border-color:rgba(247,147,26,.45);}
+  .tag.btc{background:rgba(247,147,26,.12);color:#f7931a;border:1px solid rgba(247,147,26,.35);}
+  .btc-block{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px;margin-bottom:10px;}
+  .btc-addr{font-family:ui-monospace,Consolas,monospace;font-size:11px;color:var(--text);word-break:break-all;line-height:1.5;display:block;}
+  .btc-addr.empty{color:var(--muted);font-family:inherit;font-size:12px;}
+  .btn-row{display:flex;gap:8px;margin-top:8px;}
+  .btn-row .btn{flex:1;padding:8px 6px;font-size:12px;}
+  .btn.copy{background:rgba(247,147,26,.15);color:#f7931a;border:1px solid rgba(247,147,26,.4);cursor:pointer;}
+  .btn.copy:hover{background:rgba(247,147,26,.25);}
+  .btn.wallet{background:var(--surface2);color:var(--blue);border:1px solid var(--border);}
+  .btn.wallet:hover{background:rgba(88,166,255,.12);}
+  .qr-hint{text-align:center;font-size:11px;color:var(--muted);margin-top:10px;}
   .tiers{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;margin:22px 0;}
   .tiers h2{font-size:16px;font-weight:600;margin-bottom:14px;}
   .tier-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px;}
@@ -87,12 +99,28 @@
     </div>
 
     <div class="card">
-      <span class="tag no">大陆不可用</span>
+      <span class="tag no">平台不可用</span>
       <h3>GitHub Sponsors</h3>
       <div class="who">GitHub 官方 · 需支持地区</div>
-      <div class="desc">个人赞助 0 手续费，但收款人须居住在支持地区。中国大陆不在列表，财政托管方也无大陆主体。</div>
+      <div class="desc">个人赞助 0 手续费，但收款人须居住在支持地区。中国大陆不在列表，财政托管方也无大陆主体。平台本身不处理加密货币。</div>
       <div class="btn off">暂不可用（地区限制）</div>
-      <div class="meta">支持中国香港 / 中国澳门特别行政区；若日后迁居支持地区可开通</div>
+      <div class="meta">支持中国香港 / 中国澳门特别行政区；BTC 捐赠请见下方独立渠道</div>
+    </div>
+
+    <div class="card btc">
+      <span class="tag btc">链上转账 · 无平台</span>
+      <h3>Bitcoin (BTC)</h3>
+      <div class="who">比特币主网 · 直接链上支付</div>
+      <div class="desc">不经过任何平台，链上直接转账。点下面的按钮可一键复制地址，或用支持 BIP21 的钱包直接打开。</div>
+      <div class="btc-block">
+        <code class="btc-addr empty" id="btcAddr">TODO：在本文件底部脚本填入你的 BTC 地址</code>
+        <div class="btn-row">
+          <button class="btn copy" id="btcCopy" type="button">复制地址</button>
+          <a class="btn wallet" id="btcWallet" href="#">钱包打开</a>
+        </div>
+      </div>
+      <div class="qr-hint" id="btcQrHint">填入地址后即可使用</div>
+      <div class="meta">⚠️ 合规提示：中国大陆对虚拟货币交易有明确限制，请自行确认是否符合当地法规。仅接受 BTC 主网转账，其他链资产无法到账。</div>
     </div>
   </div>
 
@@ -110,6 +138,7 @@
       <li>注册 <b>爱发电</b> 账号并完成实名，拿到形如 <code>https://afdian.com/a/你的ID</code> 的主页链接。</li>
       <li>用文本编辑器打开本文件（<code>revenue/index.html</code>），把标注 <code>TODO</code> 的 <code>href</code> 换成你的真实链接。</li>
       <li>（可选）若有海外收款账户，同样填入 Ko-fi / Buy Me a Coffee 链接。</li>
+      <li>（可选）接受 BTC 打赏：在文件底部脚本把 <code>BTC_ADDRESS</code> 换成你的 BTC 主网地址（以 <code>bc1</code>、<code>1</code> 或 <code>3</code> 开头）。填一处即可，复制按钮与 BIP21 钱包链接自动生效。<code>BTC_AMOUNT</code> 可设固定金额，留空由打赏者自填。注意：GitHub Sponsors 平台本身不处理加密货币，这是页面直挂的链上地址。</li>
       <li>把本页部署到任意静态托管（GitHub Pages / Vercel / Netlify），或直接用 GitHub 仓库的 Pages 功能托管 <code>revenue/</code> 目录。</li>
       <li>在 README 与仓库首页挂上入口（本仓库已配好 <code>.github/FUNDING.yml</code> 与 README 链接）。</li>
     </ol>
@@ -119,5 +148,68 @@
     收款渠道配置遵循真实性原则：只列出作者所在地区实际可用的渠道，不为凑数保留无法收款的空按钮。项目地址：<code>github.com/crz101/utxo-ticket-ledger</code>
   </div>
 </div>
+
+<script>
+/* ===== 唯一需要填写的地方：把下面空字符串换成你的 BTC 主网地址 ===== */
+var BTC_ADDRESS = '';          // 例：'bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh'
+var BTC_AMOUNT  = '';          // 可选：固定金额，如 '0.0001'；留空则不预设金额
+var BTC_LABEL   = 'UTXO Ticket Ledger'; // 钱包里显示的备注名
+/* ================================================================ */
+
+(function () {
+  var addrEl  = document.getElementById('btcAddr');
+  var copyBtn = document.getElementById('btcCopy');
+  var wallet  = document.getElementById('btcWallet');
+  var qrHint  = document.getElementById('btcQrHint');
+
+  function setDisabled(el, disabled) {
+    if (disabled) { el.classList.add('off'); el.setAttribute('aria-disabled', 'true'); }
+    else { el.classList.remove('off'); el.removeAttribute('aria-disabled'); }
+  }
+
+  // 未填地址：全部置灰，不生成任何链接/二维码
+  if (!BTC_ADDRESS || !/^(bc1|[13])/.test(BTC_ADDRESS)) {
+    setDisabled(copyBtn, true);
+    setDisabled(wallet, true);
+    return;
+  }
+
+  addrEl.textContent = BTC_ADDRESS;
+  addrEl.classList.remove('empty');
+
+  // 构造 BIP21 URI：bitcoin:<addr>?amount=..&label=..
+  var parts = [];
+  if (BTC_AMOUNT) parts.push('amount=' + encodeURIComponent(BTC_AMOUNT));
+  if (BTC_LABEL)  parts.push('label='  + encodeURIComponent(BTC_LABEL));
+  var uri = 'bitcoin:' + BTC_ADDRESS + (parts.length ? '?' + parts.join('&') : '');
+  wallet.href = uri;
+  setDisabled(wallet, false);
+
+  // 一键复制（带旧浏览器回退）
+  copyBtn.addEventListener('click', function () {
+    function done() {
+      var old = copyBtn.textContent;
+      copyBtn.textContent = '已复制 ✓';
+      setTimeout(function () { copyBtn.textContent = old; }, 1500);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(BTC_ADDRESS).then(done, fallback);
+    } else { fallback(); }
+    function fallback() {
+      var ta = document.createElement('textarea');
+      ta.value = BTC_ADDRESS;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); done(); } catch (e) {}
+      document.body.removeChild(ta);
+    }
+  });
+  setDisabled(copyBtn, false);
+
+  qrHint.textContent = '点上方「钱包打开」或复制地址即可打赏';
+})();
+</script>
 </body>
 </html>
