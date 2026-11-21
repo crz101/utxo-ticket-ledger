@@ -1,0 +1,7 @@
+# 生成物：含本机临时路径，由 npm run demo:visual 生成
+demo/index.html
+
+# 依赖与日志
+node_modules/
+*.log
+.DS_Store
