@@ -1,0 +1,15 @@
+{
+  "name": "utxo-ticket-ledger",
+  "version": "1.0.0",
+  "description": "借用比特币 UTXO 模型的一次性任务单调度账本原型",
+  "type": "module",
+  "scripts": {
+    "test": "node --experimental-strip-types --test test/ledger.test.ts test/git-audit.test.ts",
+    "demo": "node --experimental-strip-types test/demo.ts",
+    "demo:visual": "node --experimental-strip-types test/visual-demo.ts",
+    "stress": "node --experimental-strip-types test/stress.ts"
+  },
+  "engines": {
+    "node": ">=22.6.0"
+  }
+}
