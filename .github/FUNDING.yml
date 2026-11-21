@@ -1,7 +1,7 @@
 # 收款入口配置
-# 作者居住于中国大陆，GitHub Sponsors 不支持收款，故用 custom 指向自建收款页面。
-# 启用步骤：把 revenue/index.html 里的 TODO 链接换成真实地址，并将下方 URL 换成线上收款页地址。
-custom: ["https://github.com/crz101/utxo-ticket-ledger/tree/main/revenue"]
+# 作者居住于中国大陆，GitHub Sponsors 不支持收款，故用 custom 指向 GitHub Pages 上的自建收款页。
+# 收款页源码：docs/index.html（Pages 源目录 /docs）
+custom: ["https://crz101.github.io/utxo-ticket-ledger/"]
 
 # 若日后开通了其他平台，可在此追加（GitHub 支持的 key 示例）：
 # ko_fi: yourname
