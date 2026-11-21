@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UTXO 任务单 · Git 留痕演示</title>
+<style>
+  :root {
+    --bg: #0d1117; --surface: #161b22; --surface2: #1c2230; --border: #30363d;
+    --text: #e6edf3; --muted: #8b949e; --green: #3fb950; --blue: #58a6ff;
+    --amber: #d29922; --red: #f85149; --purple: #bc8cff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    line-height: 1.6; padding: 32px 20px;
+  }
+  .wrap { max-width: 980px; margin: 0 auto; }
+  h1 { font-size: 24px; font-weight: 600; letter-spacing: .3px; }
+  h2 { font-size: 16px; font-weight: 600; margin-bottom: 14px; color: var(--text); }
+  .sub { color: var(--muted); font-size: 13px; margin-top: 6px; }
+  .badges { display: flex; gap: 10px; flex-wrap: wrap; margin: 20px 0 28px; }
+  .badge {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 20px;
+    padding: 6px 14px; font-size: 12px; color: var(--muted);
+  }
+  .badge b { color: var(--text); font-weight: 600; }
+  .badge.ok b { color: var(--green); }
+  section { margin-bottom: 30px; }
+  .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 18px 20px; margin-bottom: 10px;
+  }
+  .timeline { position: relative; padding-left: 28px; }
+  .timeline::before {
+    content: ""; position: absolute; left: 8px; top: 6px; bottom: 6px;
+    width: 2px; background: var(--border);
+  }
+  .step { position: relative; margin-bottom: 14px; }
+  .step::before {
+    content: ""; position: absolute; left: -24px; top: 20px;
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--blue); border: 2px solid var(--bg);
+  }
+  .step.burn::before { background: var(--amber); }
+  .step-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .act {
+    font-size: 11px; font-weight: 600; padding: 2px 9px; border-radius: 5px;
+    background: rgba(88,166,255,.12); color: var(--blue); border: 1px solid rgba(88,166,255,.3);
+  }
+  .step.burn .act { background: rgba(210,153,34,.12); color: var(--amber); border-color: rgba(210,153,34,.3); }
+  .flow { font-size: 13px; color: var(--muted); font-family: ui-monospace, Consolas, monospace; }
+  .flow b { color: var(--text); font-weight: 500; }
+  .arrow { color: var(--purple); margin: 0 4px; }
+  .commit {
+    font-family: ui-monospace, Consolas, monospace; font-size: 12px;
+    color: var(--blue); background: var(--surface2); border: 1px solid var(--border);
+    padding: 2px 8px; border-radius: 5px; margin-left: auto;
+  }
+  .instr { font-size: 13px; margin-top: 8px; color: var(--muted); }
+  .instr b { color: var(--text); font-weight: 500; }
+  .changes { font-size: 12px; margin-top: 6px; color: var(--green); }
+  .changes code { background: var(--surface2); padding: 1px 6px; border-radius: 4px; }
+  .lineage { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .node {
+    font-family: ui-monospace, Consolas, monospace; font-size: 12px;
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 6px; padding: 6px 10px;
+  }
+  .node.src { border-color: var(--green); color: var(--green); }
+  .node .h { color: var(--blue); font-size: 11px; display: block; }
+  .lnk { color: var(--muted); }
+  .inject-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .inject-box { border-radius: 8px; padding: 14px; border: 1px solid var(--border); background: var(--surface2); }
+  .inject-box.bad { border-color: rgba(248,81,73,.4); }
+  .inject-box.good { border-color: rgba(63,185,80,.4); }
+  .inject-box .lbl { font-size: 11px; font-weight: 600; margin-bottom: 8px; }
+  .inject-box.bad .lbl { color: var(--red); }
+  .inject-box.good .lbl { color: var(--green); }
+  .inject-box .val { font-size: 13px; font-family: ui-monospace, Consolas, monospace; word-break: break-all; }
+  .note { font-size: 12px; color: var(--muted); margin-top: 10px; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th, td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--border); }
+  th { color: var(--muted); font-weight: 500; font-size: 11px; text-transform: uppercase; letter-spacing: .5px; }
+  td.mono { font-family: ui-monospace, Consolas, monospace; color: var(--blue); }
+  td.dim { color: var(--muted); }
+  .cancel-list { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .cancel-tag {
+    font-family: ui-monospace, Consolas, monospace; font-size: 12px;
+    color: var(--red); background: rgba(248,81,73,.08);
+    border: 1px solid rgba(248,81,73,.3); border-radius: 6px; padding: 5px 10px;
+  }
+  .foot { color: var(--muted); font-size: 12px; border-top: 1px solid var(--border); padding-top: 16px; margin-top: 28px; }
+  .foot code { background: var(--surface); padding: 2px 6px; border-radius: 4px; color: var(--text); }
+  @media (max-width: 640px) { .inject-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>UTXO 任务单调度 · Git 留痕演示</h1>
+  <div class="sub" id="subtitle"></div>
+  <div class="badges" id="badges"></div>
+
+  <section>
+    <h2>一、派单闭环时间线</h2>
+    <div class="card"><div class="timeline" id="timeline"></div></div>
+  </section>
+
+  <section>
+    <h2>二、全链路血缘追溯</h2>
+    <div class="card"><div class="lineage" id="lineage"></div></div>
+  </section>
+
+  <section>
+    <h2>三、指令与数据隔离（提示词注入防护）</h2>
+    <div class="card">
+      <div class="inject-grid">
+        <div class="inject-box bad">
+          <div class="lbl">数据槽位中的注入文本（来自网页）</div>
+          <div class="val" id="injectPayload"></div>
+        </div>
+        <div class="inject-box good">
+          <div class="lbl">实际执行的指令（首槽位，未被篡改）</div>
+          <div class="val" id="injectInstruction"></div>
+        </div>
+      </div>
+      <div class="note" id="injectNote"></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>四、Git 审计日志（真实 commit）</h2>
+    <div class="card"><table>
+      <thead><tr><th>Commit</th><th>Message</th><th>任务单</th><th>操作者</th></tr></thead>
+      <tbody id="gitlog"></tbody>
+    </table></div>
+  </section>
+
+  <section id="cancelSection">
+    <h2>五、叫停：根单进 end，子单级联作废</h2>
+    <div class="card">
+      <div class="flow" id="cancelRoot"></div>
+      <div class="cancel-list" id="cancelList"></div>
+      <div class="note" id="cancelNote"></div>
+    </div>
+  </section>
+
+  <div class="foot" id="foot"></div>
+</div>
+
+<script>
+const D = __DEMO_DATA__;
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+$('subtitle').textContent = D.subtitle;
+$('badges').innerHTML = [
+  `<span class="badge">任务单 <b>${D.stats.tickets}</b></span>`,
+  `<span class="badge">Git commit <b>${D.stats.commits}</b></span>`,
+  `<span class="badge ok">账本自检 <b>${D.stats.valid ? '通过' : '失败'}</b></span>`,
+  `<span class="badge ok">闭环完结 <b>${D.stats.complete ? '是' : '否'}</b></span>`,
+].join('');
+
+$('timeline').innerHTML = D.steps.map((s) => `
+  <div class="step ${s.action.includes('end') || s.action === 'burn' ? 'burn' : ''}">
+    <div class="step-head">
+      <span class="act">${esc(s.action)}</span>
+      <span class="flow"><b>${esc(s.from)}</b><span class="arrow">→</span><b>${esc(s.to)}</b></span>
+      <span class="commit">${esc(s.commit)}</span>
+    </div>
+    <div class="instr">单号 <b>${esc(s.ticketId)}</b> · 指令 "${esc(s.instruction)}"</div>
+    ${s.changes && s.changes.length ? `<div class="changes">改动文件: ${s.changes.map(c => `<code>${esc(c)}</code>`).join(' ')}</div>` : ''}
+  </div>
+`).join('');
+
+$('lineage').innerHTML = D.lineage.map((n, i) =>
+  `${i ? '<span class="lnk">←</span>' : ''}<span class="node ${i === 0 ? 'src' : ''}">${esc(n.id)}<span class="h">${esc(n.commit)}</span></span>`
+).join('');
+
+$('injectPayload').textContent = D.injection.payload;
+$('injectInstruction').textContent = D.injection.instruction;
+$('injectNote').textContent = D.injection.note;
+
+$('gitlog').innerHTML = D.commits.map(c => `
+  <tr>
+    <td class="mono">${esc(c.hash)}</td>
+    <td>${esc(c.message)}</td>
+    <td class="mono">${esc(c.ticketId)}</td>
+    <td class="dim">${esc(c.by)}</td>
+  </tr>
+`).join('');
+
+$('cancelRoot').innerHTML = `叫停 <b>${esc(D.cancel.rootId)}</b> by <b>${esc(D.cancel.by)}</b> → 根单花进 end`;
+$('cancelList').innerHTML = D.cancel.invalidated.map(id => `<span class="cancel-tag">${esc(id)} · 已作废</span>`).join('');
+$('cancelNote').textContent = D.cancel.note;
+
+$('foot').innerHTML = D.foot;
+</script>
+</body>
+</html>
