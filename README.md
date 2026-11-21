@@ -63,6 +63,12 @@ DESIGN.md       设计文档（云端为权威版本）
 
 自定义方式：编辑 `docs/index.html` 里的渠道链接与底部 `BTC_ADDRESS` 配置，推送到 `main` 后 GitHub Pages 自动更新。
 
+## 安全披露
+
+发现漏洞请勿开公开 Issue，优先用仓库 Security 标签页的 **Report a vulnerability** 私有上报。受理范围、响应时限与披露原则见 [`SECURITY.md`](SECURITY.md)。
+
+注意：本项目是教学/原型性质，不是生产级安全组件，不应用于处理真实资金或关键状态。
+
 ## 实测
 
 - `npm test`：21/21 通过
