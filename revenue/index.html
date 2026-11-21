@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Support UTXO Ticket Ledger · 收款渠道</title>
+<style>
+  :root {
+    --bg:#0d1117; --surface:#161b22; --surface2:#1c2230; --border:#30363d;
+    --text:#e6edf3; --muted:#8b949e; --green:#3fb950; --blue:#58a6ff;
+    --amber:#d29922; --red:#f85149; --purple:#bc8cff;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;line-height:1.6;padding:32px 20px;}
+  .wrap{max-width:940px;margin:0 auto;}
+  h1{font-size:26px;font-weight:600;}
+  .sub{color:var(--muted);font-size:13px;margin-top:8px;}
+  .notice{background:rgba(210,153,34,.08);border:1px solid rgba(210,153,34,.35);border-radius:10px;padding:14px 18px;margin:22px 0;font-size:13px;color:var(--amber);}
+  .notice b{color:var(--amber);}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin:22px 0;}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;display:flex;flex-direction:column;}
+  .card.primary{border-color:rgba(63,185,80,.5);}
+  .card .tag{font-size:11px;font-weight:600;padding:2px 9px;border-radius:5px;align-self:flex-start;margin-bottom:12px;}
+  .tag.ok{background:rgba(63,185,80,.12);color:var(--green);border:1px solid rgba(63,185,80,.3);}
+  .tag.warn{background:rgba(210,153,34,.12);color:var(--amber);border:1px solid rgba(210,153,34,.3);}
+  .tag.no{background:rgba(248,81,73,.12);color:var(--red);border:1px solid rgba(248,81,73,.3);}
+  .card h3{font-size:16px;font-weight:600;margin-bottom:6px;}
+  .card .who{font-size:12px;color:var(--muted);margin-bottom:12px;}
+  .card .desc{font-size:13px;color:var(--text);margin-bottom:14px;flex:1;}
+  .card .meta{font-size:12px;color:var(--muted);border-top:1px solid var(--border);padding-top:12px;margin-top:12px;}
+  .btn{display:block;text-align:center;text-decoration:none;font-size:13px;font-weight:500;padding:10px;border-radius:8px;transition:.15s;}
+  .btn.go{background:var(--green);color:#08130b;}
+  .btn.go:hover{background:#4ac15c;}
+  .btn.todo{background:var(--surface2);color:var(--amber);border:1px dashed rgba(210,153,34,.5);}
+  .btn.todo:hover{background:rgba(210,153,34,.12);}
+  .btn.off{background:var(--surface2);color:var(--muted);border:1px solid var(--border);cursor:not-allowed;pointer-events:none;}
+  .tiers{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;margin:22px 0;}
+  .tiers h2{font-size:16px;font-weight:600;margin-bottom:14px;}
+  .tier-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px;}
+  .tier-row:last-child{border-bottom:none;}
+  .tier-name{font-weight:500;}
+  .tier-price{color:var(--green);font-family:ui-monospace,Consolas,monospace;}
+  .tier-perk{color:var(--muted);font-size:12px;}
+  .howto{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;margin:22px 0;font-size:13px;}
+  .howto h2{font-size:16px;font-weight:600;margin-bottom:12px;}
+  .howto ol{padding-left:20px;color:var(--muted);}
+  .howto li{margin:7px 0;}
+  code{background:var(--surface2);color:var(--blue);padding:1px 6px;border-radius:4px;font-family:ui-monospace,Consolas,monospace;font-size:12px;}
+  .foot{color:var(--muted);font-size:12px;border-top:1px solid var(--border);padding-top:16px;margin-top:28px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Support UTXO Ticket Ledger</h1>
+  <div class="sub">如果这个项目对你有帮助，可以考虑支持它的持续开发。本页汇总了各收款渠道及其可用性。</div>
+
+  <div class="notice">
+    <b>关于地区限制：</b>项目作者居住/报税于<b>中国大陆</b>。GitHub Sponsors 的收款支持地区不含中国大陆（含中国香港、中国澳门特别行政区在列），且官方财政托管方均无大陆主体——因此 <b>GitHub Sponsors + 财政托管这条官方路径目前无法用于收款</b>。下方只列出大陆开发者实际能收到钱的渠道。
+  </div>
+
+  <div class="grid">
+    <div class="card primary">
+      <span class="tag ok">推荐 · 大陆可用</span>
+      <h3>爱发电</h3>
+      <div class="who">国内平台 · 支付宝 / 微信支付</div>
+      <div class="desc">面向中文赞助者最顺手，人民币直接到账，支持月度订阅与一次性赞助。</div>
+      <a class="btn todo" href="https://afdian.com/" target="_blank" rel="noopener">TODO：填入你的爱发电主页链接</a>
+      <div class="meta">订阅档位建议：¥5 / ¥20 / ¥100 每月</div>
+    </div>
+
+    <div class="card">
+      <span class="tag warn">需海外支付账户</span>
+      <h3>Ko-fi</h3>
+      <div class="who">海外平台 · Stripe / PayPal 收款</div>
+      <div class="desc">面向海外赞助者，支持一次性打赏与月度订阅。需有可收美元的 Stripe 或 PayPal 账户。</div>
+      <a class="btn todo" href="https://ko-fi.com/" target="_blank" rel="noopener">TODO：填入你的 Ko-fi 主页链接</a>
+      <div class="meta">前置条件：海外 Stripe / PayPal 账户</div>
+    </div>
+
+    <div class="card">
+      <span class="tag warn">需海外支付账户</span>
+      <h3>Buy Me a Coffee</h3>
+      <div class="who">海外平台 · Stripe / PayPal 收款</div>
+      <div class="desc">类似 Ko-fi，海外开发者生态认知度高。同样需可收美元的收款账户。</div>
+      <a class="btn todo" href="https://www.buymeacoffee.com/" target="_blank" rel="noopener">TODO：填入你的 BMC 主页链接</a>
+      <div class="meta">前置条件：海外 Stripe / PayPal 账户</div>
+    </div>
+
+    <div class="card">
+      <span class="tag no">大陆不可用</span>
+      <h3>GitHub Sponsors</h3>
+      <div class="who">GitHub 官方 · 需支持地区</div>
+      <div class="desc">个人赞助 0 手续费，但收款人须居住在支持地区。中国大陆不在列表，财政托管方也无大陆主体。</div>
+      <div class="btn off">暂不可用（地区限制）</div>
+      <div class="meta">支持中国香港 / 中国澳门特别行政区；若日后迁居支持地区可开通</div>
+    </div>
+  </div>
+
+  <div class="tiers">
+    <h2>赞助档位建议（可按实际调整）</h2>
+    <div class="tier-row"><span class="tier-name">☕ 支持者</span><span class="tier-perk">名字列入 README 致谢</span><span class="tier-price">¥5 / $2 每月</span></div>
+    <div class="tier-row"><span class="tier-name">🎫 贡献者</span><span class="tier-perk">+ 优先 issue 响应</span><span class="tier-price">¥20 / $10 每月</span></div>
+    <div class="tier-row"><span class="tier-name">🌟 赞助商</span><span class="tier-perk">+ README Logo 展示</span><span class="tier-price">¥100 / $50 每月</span></div>
+    <div class="tier-row"><span class="tier-name">💎 企业赞助</span><span class="tier-perk">+ 定制支持 / 咨询</span><span class="tier-price">另行商议</span></div>
+  </div>
+
+  <div class="howto">
+    <h2>如何启用这个页面</h2>
+    <ol>
+      <li>注册 <b>爱发电</b> 账号并完成实名，拿到形如 <code>https://afdian.com/a/你的ID</code> 的主页链接。</li>
+      <li>用文本编辑器打开本文件（<code>revenue/index.html</code>），把标注 <code>TODO</code> 的 <code>href</code> 换成你的真实链接。</li>
+      <li>（可选）若有海外收款账户，同样填入 Ko-fi / Buy Me a Coffee 链接。</li>
+      <li>把本页部署到任意静态托管（GitHub Pages / Vercel / Netlify），或直接用 GitHub 仓库的 Pages 功能托管 <code>revenue/</code> 目录。</li>
+      <li>在 README 与仓库首页挂上入口（本仓库已配好 <code>.github/FUNDING.yml</code> 与 README 链接）。</li>
+    </ol>
+  </div>
+
+  <div class="foot">
+    收款渠道配置遵循真实性原则：只列出作者所在地区实际可用的渠道，不为凑数保留无法收款的空按钮。项目地址：<code>github.com/crz101/utxo-ticket-ledger</code>
+  </div>
+</div>
+</body>
+</html>
